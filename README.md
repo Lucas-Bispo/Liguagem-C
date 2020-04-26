@@ -1,2 +1,2 @@
-# Treino-em-C
+C
 Apredizagem
