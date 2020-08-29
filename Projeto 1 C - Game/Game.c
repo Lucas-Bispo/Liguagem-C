@@ -63,9 +63,33 @@ int somar(int resposta, Calcular calc){
 }
 
 int diminuir(int resposta, Calcular calc){
+    int resultado = calc.valor1 - calc.valor2;
+    calc.resultado = resultado;
+    int certo = 0;//0 = errou 1 =acertou
 
+    if (resposta == calc.resultado)
+    {
+        printf("Resposta correta!\n");
+        certo = 1;
+    }else{
+        printf("Resposta errada!\n");
+    }
+    printf("%d - %d = %d\n", calc.valor1, calc.valor2, calc.resultado);
+    return certo;
 }
 
 int multiplicar(int resposta, Calcular calc){
+    int resultado = calc.valor1 * calc.valor2;
+    calc.resultado = resultado;
+    int certo = 0;//0 = errou 1 =acertou
 
+    if (resposta == calc.resultado)
+    {
+        printf("Resposta correta!\n");
+        certo = 1;
+    }else{
+        printf("Resposta errada!\n");
+    }
+    printf("%d * %d = %d\n", calc.valor1, calc.valor2, calc.resultado);
+    return certo;
 }
