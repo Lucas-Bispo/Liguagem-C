@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include<stdlib.h>
+#include<stdlib.h> //teste
 
 struct item{//Aenas para guardar a variável inteira.
     int cod;
@@ -148,7 +148,7 @@ int main() {
     printf("Antes de treeRemover.\n");
     print(root);//chamada de funçao para imprimir a árvore 
     root = treeRemove(root,13); //chamada para remover elementos da árvore 
-    printf("Depois de remover\n")
+    printf("Depois de remover\n");
     print(root);//imprimir árvore
 
     printf("\n");
