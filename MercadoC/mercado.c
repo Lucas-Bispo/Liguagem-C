@@ -26,3 +26,18 @@ void visualizarCarrinho();
 Produto pegarProdutoPorCodigo(int codigo);
 int * temNOCArrinho(int codigo);
 void fecharPedido();
+
+
+static int contador_produto = 0;
+static int contador_carrinho = 0;
+static Carrinho carrinho[50];
+static Produto produtos[50];
+
+int main(){
+    menu();
+    return 0;
+}
+
+void infoProduto(Produto prod){
+    printf("Código: %d \nNome: %s\nPreço: %.2f\n", prod.codigo,strtok(prod.nome, "\n"),prod.preco);
+}
