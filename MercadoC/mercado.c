@@ -168,3 +168,31 @@ int * temNoCarrinho(int codigo){
 	}
 	return retorno;
 }
+
+void fecharPedido(){
+	if(contador_carrinho > 0){
+		float valorTotal = 0.0;
+		printf("Produtos do Carrinho\n");
+		printf("--------------------\n");
+		for(int i = 0; i < contador_carrinho; i++){
+			Produto p = carrinho[i].produto;
+			int quantidade = carrinho[i].quantidade;
+			valorTotal += p.preco * quantidade;
+			infoProduto(p);
+			printf("Quantidade: %d\n", quantidade);
+			printf("---------------\n");
+			sleep(1);
+		}
+		printf("Sua fatura é R$ %.2f\n", valorTotal);
+
+		//limpar carrinho
+		contador_carrinho = 0;
+		printf("Obrigado pela preferência.\n");
+		sleep(5);
+		menu();
+	}else{
+		printf("Você não tem nenhum produto no carrinho ainda.\n");
+		sleep(3);
+		menu();
+	}
+}
