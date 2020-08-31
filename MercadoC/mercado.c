@@ -106,3 +106,21 @@ void cadastrarProduto(){
 	sleep(2);
 	menu();
 }
+
+void listarProdutos(){
+	if(contador_produto > 0){
+		printf("Listagem de produtos.\n");
+		printf("---------------------\n");
+		for(int i = 0; i < contador_produto; i++){
+			infoProduto(produtos[i]);
+			printf("------------------\n");
+			sleep(1);
+		}
+		sleep(2);
+		menu();
+	}else{
+		printf("Não temos ainda produtos cadastrados.\n");
+		sleep(2);
+		menu();
+	}
+}
