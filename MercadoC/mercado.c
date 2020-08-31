@@ -147,3 +147,13 @@ void visualizarCarrinho(){
 		menu();
 	}
 }
+
+Produto pegarProdutoPorCodigo(int codigo){
+	Produto p;
+	for(int i = 0; i < contador_produto; i++){
+		if(produtos[i].codigo == codigo){
+			p = produtos[i];
+		}
+	}
+	return p;
+}
