@@ -124,3 +124,26 @@ void listarProdutos(){
 		menu();
 	}
 }
+
+void comprarProduto(){
+    //implementar
+}
+
+void visualizarCarrinho(){
+	if(contador_carrinho > 0){
+		printf("Produtos do Carrinho\n");
+		printf("--------------------\n");
+		for(int i = 0; i < contador_carrinho; i++){
+			infoProduto(carrinho[i].produto);
+			printf("Quantidade: %d\n", carrinho[i].quantidade);
+			printf("-----------------\n");
+			sleep(1);
+		}
+		sleep(2);
+		menu();
+	}else{
+		printf("Não temos ainda produtos no carrinho.\n");
+		sleep(2);
+		menu();
+	}
+}
