@@ -157,3 +157,14 @@ Produto pegarProdutoPorCodigo(int codigo){
 	}
 	return p;
 }
+
+int * temNoCarrinho(int codigo){
+	int static retorno[] = {0, 0};
+	for(int i = 0; i < contador_carrinho; i++){
+		if(carrinho[i].produto.codigo == codigo){
+			retorno[0] = 1; //tem o produto com este código no carrinho
+			retorno[1] = i; //o índice do produto no carrinho
+		}
+	}
+	return retorno;
+}
