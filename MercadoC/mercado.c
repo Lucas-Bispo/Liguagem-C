@@ -24,7 +24,7 @@ void listarProdutos();
 void comprarProduto();
 void visualizarCarrinho();
 Produto pegarProdutoPorCodigo(int codigo);
-int * temNOCArrinho(int codigo);
+int * temNoCarrinho(int codigo);
 void fecharPedido();
 
 
