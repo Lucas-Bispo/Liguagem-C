@@ -41,3 +41,49 @@ int main(){
 void infoProduto(Produto prod){
     printf("Código: %d \nNome: %s\nPreço: %.2f\n", prod.codigo,strtok(prod.nome, "\n"),prod.preco);
 }
+
+void menu(){
+    printf("=========================================\n");
+	printf("================ Bem-vindo(a) ===========\n");
+	printf("================  Geek Shop   ===========\n");
+	printf("=========================================\n");
+
+    printf("Selecione uma opção abaixo: \n");
+	printf("1 - Cadastrar produto\n");
+	printf("2 - Listar produtos\n");
+	printf("3 - Comprar produto\n");
+	printf("4 - Visualizar carrinho\n");
+	printf("5 - Fechar pedido\n");
+	printf("6 - Sair do sistema\n");
+
+    int opcao;
+	scanf("%d", &opcao);
+	getchar();//para não ficar pulando linha
+
+	switch (opcao) {
+		case 1:
+			cadastrarProduto();
+			break;
+		case 2:
+			listarProdutos();
+			break;
+		case 3:
+			comprarProduto();
+			break;
+		case 4:
+			visualizarCarrinho();
+			break;
+		case 5:
+			fecharPedido();
+			break;
+		case 6:
+			printf("Volte sempre!\n");
+			sleep(2); //Sleep(2)
+			exit(0);
+		default:
+			printf("Opção inválida.\n");
+			sleep(2);
+			menu();
+			break;
+	}
+}
