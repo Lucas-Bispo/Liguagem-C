@@ -82,8 +82,27 @@ void menu(){
 			exit(0);
 		default:
 			printf("Opção inválida.\n");
-			sleep(2);
+			sleep(2);//pausa por dois segundos no windos com Sleep(2)
 			menu();
 			break;
 	}
+}
+
+void cadastrarProduto(){
+	printf("Cadastro de Produto\n");
+	printf("====================\n");
+
+	printf("Informe o nome do produto: \n");
+	fgets(produtos[contador_produto].nome, 30, stdin);
+
+	printf("Informe o preço do produto: \n");
+	scanf("%f", &produtos[contador_produto].preco);
+
+	printf("O produto %s foi cadastrado com sucesso.\n", strtok(produtos[contador_produto].nome, "\n"));
+
+	produtos[contador_produto].codigo = (contador_produto + 1);
+	contador_produto++;
+
+	sleep(2);
+	menu();
 }
