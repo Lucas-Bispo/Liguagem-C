@@ -9,7 +9,7 @@ void inserir_no_inicio(NO *inicio,NO **final){//
     NO *novo;
     novo = (NO*)malloc(sizeof(NO));//alocação de memória no tamanho de NO
     printf("\nDigite um valor para inserir no inicio\n");
-    scanf("%d",&novo->prox);
+    scanf("%d",&novo->valor);
     novo->prox = inicio->prox;//por que inicio->prox está apontando para NULL
     novo->anter = inicio;
     if (inicio->prox != NULL)
@@ -24,7 +24,7 @@ void inserir_no_final(NO **final){
     NO *novo;
     novo = (NO*)malloc(sizeof(NO));
     printf("\nDigite um valor para inserir no final\n");
-    scanf("%d",&novo->prox);
+    scanf("%d",&novo->valor);
     novo->prox = (*final)->prox;
     novo->anter = *final;
     (*final)->prox = novo;
