@@ -15,6 +15,7 @@ NO *criar_no(){//fução que retorna um ponteiro.
     //porém é preciso fazer um cast, conversão do ponteiro vazio para o tipo NO.
     return novo;// retorno de ponteiro
 }
+/*
 NO *inserir_Inicio(NO *lista,int valor){//recebe ponteiro como argumento e o valor
 //porém pode fazer de outra maneira.
    NO *novo_no = criar_no();//chamada de função para criar e retornar um nó.
@@ -31,12 +32,16 @@ NO *inserir_Inicio(NO *lista,int valor){//recebe ponteiro como argumento e o val
        lista = novo_no;// vai apontar ao novo elemento que foi criado.
     }
    return lista;//retorno da lista.
-}
+}*/
 //rever a logica de inserção de elementos.
-NO *inserir_fim(NO *lista,int dado){//recebe um ponteiro mais um valor são os parâmetros
+NO *inserir_fim(NO *lista,int lp2,int tam2,int peso2, int gc2){//recebe um ponteiro mais um valor são os parâmetros
     NO *no = (NO*)malloc(sizeof(NO));//recebe alocação de memória feita por malloc,é feito cast 
     // e o endereço é passado ao ponteiro no.
-    no->num = dado;//recebe o valor que vem no parâmetro.
+    no->lp = lp2;//recebe o valor que vem no parâmetro.
+    no->tam = tam2;
+    no->peso = peso2;
+    no->gc = gc2;
+
     if(lista == NULL){//essa condição sempre acontecerá pelo menos uma vez.
         no->prox = NULL;//o campo prox aponta para NULL
         lista = no; //lista aponta para o novo elemento que foi inserido na lista.
@@ -52,11 +57,11 @@ NO *inserir_fim(NO *lista,int dado){//recebe um ponteiro mais um valor são os p
     return lista;// a lista é retornada
 }
 
-NO *busca(NO *lista, int valor){//função que retorna o ponteiro encontrado na busca.
+NO *busca(NO *lista, int valor,int lp2,int tam2,int peso2, int gc2){//função que retorna o ponteiro encontrado na busca.
   NO *aux = lista;//é preciso criar uma variável auxiliar.
   //passa o endereço da lista para aux e realiza a busca.
   while(aux->prox != NULL){//enquanto aux não encontra NULL 
-    if(aux->num == valor){//a comparação entre o valor e os valores que estão na lista em num.
+    if((aux->lp == lp2) && (aux->tam == tam2) && (aux->peso == peso2) && (aux->gc == gc2) ){//a comparação entre o valor e os valores que estão na lista em num.
     return aux;//retorno do valor encontrado.
     }
     aux = aux->prox;//incremento 
@@ -64,18 +69,18 @@ NO *busca(NO *lista, int valor){//função que retorna o ponteiro encontrado na 
 
 }
 
-NO *deletar(NO *lista,int valor){
+NO *deletar(NO *lista,int lp2,int tam2,int peso2, int gc2){
     NO *anterior,*proximo;
     proximo = lista->prox;//endereço passado para o proximo.
     anterior = lista;//mesma coisa acontece aqui pois é preciso criar auxiliares para não 
     //para não perder a lista.
-    if (anterior->num == valor){//exceção caso o valor esteja no início.
+    if ((anterior->lp == lp2) &&(anterior->tam == tam2) &&(anterior->peso == peso2) &&(anterior->gc == gc2)){//exceção caso o valor esteja no início.
         lista = proximo;//ajuste de ponteiro, pois proximo está com endereço de lista->prox.
         printf("Valor apagado pois se encontra no inicio da lista.\n");
         free(anterior);//liberação de memória.
     }
     while (proximo != NULL){//caso não esteja no início devesse realizar uma busca
-        if(proximo->num == valor){//vereficação para encontrar o valor
+        if((anterior->lp == lp2) &&(anterior->tam == tam2) &&(anterior->peso == peso2) &&(anterior->gc == gc2)){//vereficação para encontrar o valor
            anterior->prox = proximo->prox;//ajuste de ponteiros para liberar a memória para que 
            //o elemento anterior ao que foi encontrado aponte para o ponteiro que aponto o elemento depois
            //do que foi encontrado.
@@ -93,7 +98,10 @@ void imprimir_Lista(NO *lista){//recebe a lista
     NO *aux;//auxiliar 
     for (aux = lista; aux != NULL; aux = aux->prox){//percorre a lista 
     //aux recebe o endereço da lista, enquanto diferente NULL,e incremento.
-        printf("|%d|->",aux->num);//imprime a lista.
+        printf("LP = %d",aux->lp);//imprime a lista.
+        printf("TAM = %d",aux->tam);
+        printf("PESO = %d",aux->peso);
+        printf("GC = %d",aux->gc);
     }
 }
 void linhaAlinha(NO *li){
@@ -106,13 +114,14 @@ void linhaAlinha(NO *li){
   if(arq){
     while(!feof(arq)){
     resultado = fgets(nome, 40, arq);
-
+      
       if(resultado){
         NO auxDados;
         char sLp[10];
         char sTam[10];
         char sPeso[10];
         char sGc[10];
+        int sLp2,sTam2,sPeso2,sGc2;
             
         int i;
         // Landing Pointer
@@ -120,7 +129,7 @@ void linhaAlinha(NO *li){
           sLp[i] = nome[i];
         
         sLp[i] = '\0';
-        auxDados.lp = atoi(sLp);
+        sLp2 = atoi(sLp);
         //printf("%d\n", auxDados);
         
         
@@ -133,7 +142,7 @@ void linhaAlinha(NO *li){
           sTam[cont] = nome[j];
             
         sTam[j] = '\0';
-        auxDados.tam = atoi(sTam);
+        sTam2 = atoi(sTam);
         j++;
 
         // peso
@@ -143,7 +152,7 @@ void linhaAlinha(NO *li){
           sPeso[cont] = nome[k];
 
         sTam[k] ='\0';
-        auxDados.peso = atoi(sPeso);
+        sPeso2 = atoi(sPeso);
         k++;
 
        // iGc
@@ -154,8 +163,10 @@ void linhaAlinha(NO *li){
           sGc[cont] = nome[l];
 
         sGc[l] = '\0';
-        auxDados.gc = atoi(sGc);
+        sGc2 = atoi(sGc);
+        
 
+        inserir_fim(li, sLp2, sTam2, sPeso2, sGc2);
         // Insere na lista
         //insereNaListaInicio(&li, auxDados);
       }
@@ -170,38 +181,88 @@ void linhaAlinha(NO *li){
 
 int main() {
     int escolha,valor;
+    int  lp2,tam2, peso2, gc2;
     //inicialização da lista, podesse criar função.
     NO *lista = NULL;// e é tambem,*respostaBusca;
     NO *respostaBusca;
+
+    linhaAlinha(lista);
+
+
     do{//menu de interação com usuário
-        printf("[1]-Inserir elemento\n[2]-Inserir no fim\n[3]-Busca de elementos\n[4]-Deletar elementos\n[5]-Imprimir lista\n[-1]-sair\n");
+        printf("[2]-Inserir no fim\n[3]-Busca de elementos\n[4]-Deletar elementos\n[5]-Imprimir lista\n[-1]-sair\n");
         scanf("%d",&escolha);
         switch (escolha){//analise de casos de acordo com o que o usuário digitar.
-            case 1:{
-                printf("Digite o valor a colocar na lisrta:");
-                scanf("%d",&valor);
-                lista = inserir_Inicio(lista,valor);//por ser um função com retorno devesse jogar o retorno, ao mesmo tempo a função realizada.
-                break;//quebra de sequência de comandos 
-            }
+            //case 1:{
+                //printf("Digite o valor a colocar na lisrta:");
+               // scanf("%d",&valor);
+                //lista = inserir_Inicio(lista,valor);//por ser um função com retorno devesse jogar o retorno, ao mesmo tempo a função realizada.
+                //break;//quebra de sequência de comandos 
+            //}
             case 2:{
-                printf("Digite o valor a colocar na lisrta:");
-                scanf("%d",&valor);
-                lista = inserir_fim(lista,valor);//as variáveis que são passadas como argumentos por mais que tenham o mesmo nome 
-                //não tem o endereço iguais
-                break;//quebra de sequência de comandos
+              printf("Infome o numero do landpoint que deseja inserir: ");
+              scanf("%d",&lp2);
+              fflush(stdin);
+
+              printf("Infome o numero do tamnho que deseja inserir: ");
+              scanf("%d",&tam2);
+              fflush(stdin);
+
+              printf("Infome o numero do peso que deseja inserir: ");
+              scanf("%d",&peso2);
+              fflush(stdin);
+
+              printf("Infome o numero do gcc que deseja inserir: ");
+              scanf("%d",&gc2);
+              fflush(stdin);
+              lista = inserir_fim(lista,lp2,tam2, peso2, gc2);//as variáveis que são passadas como argumentos por mais que tenham o mesmo nome 
+              //não tem o endereço iguais
+              break;//quebra de sequência de comandos
             }
             case 3:{
-                printf("Digite o valor para buscar:");
-                scanf("%d",&valor);
-                respostaBusca = busca(lista,valor);
-                printf("Valor encontrado %d\n",respostaBusca->num);//como a resposta foi retornada o procedimento de impressão com struct
+              
+              printf("Infome o numero do landpoint que deseja buscar: ");
+              scanf("%d",&lp2);
+              fflush(stdin);
+
+              printf("Infome o numero do tamnho que deseja buscar: ");
+              scanf("%d",&tam2);
+              fflush(stdin);
+
+              printf("Infome o numero do peso que deseja buscar: ");
+              scanf("%d",&peso2);
+              fflush(stdin);
+
+              printf("Infome o numero do gcc que deseja buscar: ");
+              scanf("%d",&gc2);
+              fflush(stdin);
+
+              respostaBusca = busca(lista,valor,lp2,tam2, peso2, gc2);
+              printf("Valores encontrados: lp = %d,  tam = %d, peso = %d gc = %d \n",respostaBusca->lp,respostaBusca->peso,respostaBusca->gc);//como a resposta foi retornada o procedimento de impressão com struct
                 //e ponteiros é usando -> "seta".
                 break;//quebra de sequência de comandos
             }
             case 4:{//o mesmo se aplica em relação a função, retorno,parâmetros
-                printf("Digite o valor para deletar:");
-                scanf("%d",&valor);
-                lista = deletar(lista,valor);
+               
+                printf("Infome o numero do landpoint que deseja deletar: ");
+                scanf("%d",&lp2);
+                fflush(stdin);
+
+                printf("Infome o numero do tamnho que deseja deletar: ");
+                scanf("%d",&tam2);
+                fflush(stdin);
+
+                printf("Infome o numero do peso que deseja deletar: ");
+                scanf("%d",&peso2);
+                fflush(stdin);
+
+                printf("Infome o numero do gcc que deseja deletar: ");
+                scanf("%d",&gc2);
+                fflush(stdin);
+
+
+
+                lista = deletar(lista,lp2,tam2, peso2, gc2);
                 break;
             }
             case 5:{
