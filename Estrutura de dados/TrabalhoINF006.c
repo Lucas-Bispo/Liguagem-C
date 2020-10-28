@@ -1,5 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>//Biblioteca que permite trabalhar com a memória.
+#include <ctype.h>
+#include <string.h>
+
 typedef struct st_no{//redefinição do tipo de dado para NO.
     int num;
     int lp; 
@@ -61,11 +64,12 @@ NO *busca(NO *lista, int valor,int lp2,int tam2,int peso2, int gc2){//função q
   NO *aux = lista;//é preciso criar uma variável auxiliar.
   //passa o endereço da lista para aux e realiza a busca.
   while(aux->prox != NULL){//enquanto aux não encontra NULL 
-    if((aux->lp == lp2) && (aux->tam == tam2) && (aux->peso == peso2) && (aux->gc == gc2) ){//a comparação entre o valor e os valores que estão na lista em num.
+    
+    if((aux->lp == lp2) && (aux->tam == tam2) && (aux->peso == peso2) && (aux->gc == gc2)){//a comparação entre o valor e os valores que estão na lista em num.
     return aux;//retorno do valor encontrado.
     }
     aux = aux->prox;//incremento 
-    }
+  }
 
 }
 
@@ -75,12 +79,15 @@ NO *deletar(NO *lista,int lp2,int tam2,int peso2, int gc2){
     anterior = lista;//mesma coisa acontece aqui pois é preciso criar auxiliares para não 
     //para não perder a lista.
     if ((anterior->lp == lp2) &&(anterior->tam == tam2) &&(anterior->peso == peso2) &&(anterior->gc == gc2)){//exceção caso o valor esteja no início.
+
         lista = proximo;//ajuste de ponteiro, pois proximo está com endereço de lista->prox.
         printf("Valor apagado pois se encontra no inicio da lista.\n");
         free(anterior);//liberação de memória.
     }
     while (proximo != NULL){//caso não esteja no início devesse realizar uma busca
+    
         if((anterior->lp == lp2) &&(anterior->tam == tam2) &&(anterior->peso == peso2) &&(anterior->gc == gc2)){//vereficação para encontrar o valor
+
            anterior->prox = proximo->prox;//ajuste de ponteiros para liberar a memória para que 
            //o elemento anterior ao que foi encontrado aponte para o ponteiro que aponto o elemento depois
            //do que foi encontrado.
@@ -96,86 +103,151 @@ NO *deletar(NO *lista,int lp2,int tam2,int peso2, int gc2){
 
 void imprimir_Lista(NO *lista){//recebe a lista 
     NO *aux;//auxiliar 
-    for (aux = lista; aux != NULL; aux = aux->prox){//percorre a lista 
-    //aux recebe o endereço da lista, enquanto diferente NULL,e incremento.
+    for (aux = lista; aux->prox != NULL; aux = aux->prox){//percorre a lista 
+        //aux recebe o endereço da lista, enquanto diferente NULL,e incremento.
         printf("LP = %d",aux->lp);//imprime a lista.
         printf("TAM = %d",aux->tam);
         printf("PESO = %d",aux->peso);
         printf("GC = %d",aux->gc);
     }
 }
-void linhaAlinha(NO *li){
+
+NO *linhaAlinha(NO *li){
+  
   FILE *arq;
+  NO *lii;
 
   char nome[40], *resultado;
 
-  arq = fopen("maDados.txt", "r");
+  arq = fopen("teste.txt", "r");
 
   if(arq){
+
     while(!feof(arq)){
-    resultado = fgets(nome, 40, arq);
+
+        resultado = fgets(nome, 40, arq);
       
-      if(resultado){
-        NO auxDados;
-        char sLp[10];
-        char sTam[10];
-        char sPeso[10];
-        char sGc[10];
-        int sLp2,sTam2,sPeso2,sGc2;
+        if(resultado){
+        
+            NO auxDados;
+            char sLp[10];
+            char sTam[10];
+            char sPeso[10];
+            char sGc[10];
+            int sLp2,sTam2,sPeso2,sGc2;
+
+            printf( " \n ");
+            printf("%s", nome);
+              
+
+            NO *no = (NO*)malloc(sizeof(NO));
+
+            const char s[2] = ";";
+            char *token;
+   
+            /* get the first token */
+            token = strtok(nome, s);
+   
+          /* walk through other tokens */
+          while( token != NULL ) {
+            //printf( " %s\n", token );
             
-        int i;
-        // Landing Pointer
-        for (i = 0; nome[i] != ';'; i++)
-          sLp[i] = nome[i];
-        
-        sLp[i] = '\0';
-        sLp2 = atoi(sLp);
-        //printf("%d\n", auxDados);
-        
-        
-
-        i++;
-        // Tamanho
-        int j;
-        int cont = 0;
-        for (j = i; nome[j] != ';'; j++, cont++)
-          sTam[cont] = nome[j];
+            sLp2 = atoi(token);
             
-        sTam[j] = '\0';
-        sTam2 = atoi(sTam);
-        j++;
 
-        // peso
-        int k;
-        cont = 0;
-        for (k=j; nome[k] != ';'; k++, cont++)
-          sPeso[cont] = nome[k];
+            printf( " \n ");
+            printf( " %d ", sLp2 );
+            
+            printf( " \n ");
 
-        sTam[k] ='\0';
-        sPeso2 = atoi(sPeso);
-        k++;
+            token = strtok(NULL, s);
+          }
+            /*int i;        
+            // Landing Pointer
+            for (i = 0; nome[i] != ';'; i++){
+            sLp[i] = nome[i];
+           
+            //printf("")
+            }
+            sLp[i] = '\0';
+            
+            sLp2 = atoi(sLp);
 
-       // iGc
-        int l;
-        cont = 0;
+            li->lp = sLp2;
+            //printf("%d\n", auxDados);
+            
+            
+
+            i++;
+            // Tamanho
+            int j;
+            int cont = 0;
+
+            for (j = i; nome[j] != ';'; j++, cont++)
+            sTam[cont] = nome[j];
+                
+            sTam[j] = '\0';
+            sTam2 = atoi(sTam);
+            //printf("%d",sTam2);
+            j++;
+
+            li->tam = sTam2;
+
+            // peso
+            int k;
+            cont = 0;
+
+            for (k=j; nome[k] != ';'; k++, cont++)
+            sPeso[cont] = nome[k];
+
+            sTam[k] ='\0';
+            sPeso2 = atoi(sPeso);
+            k++;
+
+            li->peso = sPeso2;
+
+            // iGc
+            int l;
+            cont = 0;
+            
+            for (l=k;  nome[l] != '\0'; l++, cont++)
+            sGc[cont] = nome[l];
+
+            sGc[l] = '\0';
+            sGc2 = atoi(sGc);
+
+            printf("%s", nome);
+            
+            li->gc = sGc2;*/
+
+
+           if(li == NULL){//essa condição sempre acontecerá pelo menos uma vez.
+                no->prox = NULL;//o campo prox aponta para NULL
+                li = no; //lista aponta para o novo elemento que foi inserido na lista.
+            }
+            else{//para chegar realizar a inserção no fim, devesse realizar uma busca pelo campo NUUL
+                NO *aux = li;//é preciso criasse variáveis auxiliares para não perder a referência da lista.
+                while (aux->prox != NULL){// da para fazer com for.
+                    aux = aux->prox;
+                } //quando encontra NULL, o redirecionamento dos ponteiros são realizados
+                no->prox = NULL;//o campo prox do novo elemento aponta para NULL
+                aux->prox = no;// e aux que apontava para NULL aponta para o elemnto que será inserido.
+            }
         
-        for (l=k;  nome[l] != '\0'; l++, cont++)
-          sGc[cont] = nome[l];
+            //return li;
 
-        sGc[l] = '\0';
-        sGc2 = atoi(sGc);
-        
+            
 
-        inserir_fim(li, sLp2, sTam2, sPeso2, sGc2);
-        // Insere na lista
-        //insereNaListaInicio(&li, auxDados);
-      }
-    }
+            //lii = inserir_fim(li, sLp2, sTam2, sPeso2, sGc2);
+            // Insere na lista
+            //insereNaListaInicio(&li, auxDados);
+        }
     
-
+    }
+   }
+return lii;
 }
 
-}
 
 
 
@@ -185,13 +257,16 @@ int main() {
     //inicialização da lista, podesse criar função.
     NO *lista = NULL;// e é tambem,*respostaBusca;
     NO *respostaBusca;
+    NO *listaCarregada;
 
-    linhaAlinha(lista);
+    listaCarregada = linhaAlinha(lista);
 
 
     do{//menu de interação com usuário
+    
         printf("[2]-Inserir no fim\n[3]-Busca de elementos\n[4]-Deletar elementos\n[5]-Imprimir lista\n[-1]-sair\n");
         scanf("%d",&escolha);
+
         switch (escolha){//analise de casos de acordo com o que o usuário digitar.
             //case 1:{
                 //printf("Digite o valor a colocar na lisrta:");
@@ -238,7 +313,7 @@ int main() {
               fflush(stdin);
 
               respostaBusca = busca(lista,valor,lp2,tam2, peso2, gc2);
-              printf("Valores encontrados: lp = %d,  tam = %d, peso = %d gc = %d \n",respostaBusca->lp,respostaBusca->peso,respostaBusca->gc);//como a resposta foi retornada o procedimento de impressão com struct
+              printf("Valores encontrados: lp = %d tam = %d peso = %d gc = %d",respostaBusca->lp,respostaBusca->peso,respostaBusca->gc);//como a resposta foi retornada o procedimento de impressão com struct
                 //e ponteiros é usando -> "seta".
                 break;//quebra de sequência de comandos
             }
@@ -267,8 +342,12 @@ int main() {
             }
             case 5:{
             	imprimir_Lista(lista);
-				break;
-			}
+				      break;
+			      }
+            case 6:{
+              imprimir_Lista(listaCarregada);
+            }
+
             case -1:
             free(lista);//liberação de memória por questão de segurança
             default://encerramento de programa 
